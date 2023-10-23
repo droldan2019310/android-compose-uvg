@@ -1,5 +1,6 @@
 package com.zezzi.eventzezziapp.data.networking
 
+import com.zezzi.eventzezziapp.data.networking.response.DishCategoryResponse
 import com.zezzi.eventzezziapp.data.networking.response.MealsCategoriesResponse
 import retrofit2.Retrofit
 import retrofit2.Call
@@ -20,5 +21,10 @@ class MealsWebService {
 
     suspend fun getMeals(): MealsCategoriesResponse {
         return api.getMeals()
+    }
+
+
+    suspend fun getFilter(meal: String): DishCategoryResponse {
+        return api.getFilter(meal)
     }
 }
