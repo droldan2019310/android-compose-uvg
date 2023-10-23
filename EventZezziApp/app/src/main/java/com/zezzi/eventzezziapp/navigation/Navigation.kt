@@ -23,12 +23,12 @@ fun Navigation(modifier: Modifier = Modifier) {
         }
 
         composable(
-            route = "${NavigationState.Meals.route}/{mealName}",
+            route = "dishes/{mealName}",
             arguments = listOf(navArgument("mealName") { type = NavType.StringType })
         ) { backStackEntry ->
             val mealName = backStackEntry.arguments?.getString("mealName")
             mealName?.let {
-                MealsDetailsScreen(navController, it)
+                MealsDetailsScreen(navController = navController, mealName= it)
             }
         }
 

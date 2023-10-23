@@ -1,5 +1,6 @@
 package com.zezzi.eventzezziapp.ui.meals.view
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,9 +18,21 @@ class MealsDetailsViewModel(private val repository: FilterRepository = FilterRep
         categoryUiState = MealsDetailsUiState(emptyList(), loading = true)
 
         viewModelScope.launch {
-            categoryUiState = MealsDetailsUiState(
-                categories = repository.getFilter(meal).categories
-            )
+            val response = repository.getFilter(meal)
+            if (response != null) {
+                if (response.meals != null && response.meals.isNotEmpty()) {
+                    categoryUiState = MealsDetailsUiState(
+                        meals = response.meals
+                    )
+                    Log.d("DishesCategoriesViewModel", "Response for category $meal: ${categoryUiState.meals}")
+                } else {
+                    // Manejar el caso en el que la lista de platos esté vacía
+                    Log.e("DishesCategoriesViewModel", "dishessssssssss $response")
+                }
+            } else {
+                // Manejar el caso en el que la respuesta sea nula
+                Log.e("DishesCategoriesViewModel", "Response is null for category $meal")
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.zezzi.eventzezziapp.data.networking.response
 import com.google.gson.annotations.SerializedName
 
-data class DishCategoryResponse(val categories: List<DishResponse>)
+data class DishCategoryResponse(val meals: List<DishResponse>)
 
 data class DishResponse(
     @SerializedName("idMeal") val id: String,

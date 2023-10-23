@@ -37,7 +37,7 @@ fun MealsDetailsScreen(
 ) {
 
 
-    if (viewModel.categoryUiState.categories.isEmpty()) {
+    if (viewModel.categoryUiState.meals.isEmpty()) {
         viewModel.getFilter(mealName)
     }
 
@@ -61,7 +61,7 @@ fun MealsDetailsScreen(
                 columns = GridCells.Fixed(2),
                 contentPadding = it,
             ) {
-                items(viewModel.categoryUiState.categories) { dish ->
+                items(viewModel.categoryUiState.meals) { dish ->
                     Card(
                         shape = RoundedCornerShape(8.dp),
                         elevation = 2.dp,

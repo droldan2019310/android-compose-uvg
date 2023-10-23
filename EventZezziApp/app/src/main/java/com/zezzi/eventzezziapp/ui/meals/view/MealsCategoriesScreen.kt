@@ -66,7 +66,8 @@ fun MealsCategoriesScreen(
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         onClick = {
-                            navController.navigate("${NavigationState.Meals.route}/${meal.name}")
+                            println("name: "+meal.name)
+                            navController.navigate("dishes/${meal.name}")
                         }
                     ) {
                         Column(
