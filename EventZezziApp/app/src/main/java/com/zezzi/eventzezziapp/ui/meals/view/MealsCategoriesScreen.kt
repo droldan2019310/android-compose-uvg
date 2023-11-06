@@ -1,5 +1,6 @@
 package com.zezzi.eventzezziapp.ui.meals.view
 
+import CategoriesViewModel
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -32,18 +35,17 @@ import com.zezzi.eventzezziapp.navigation.NavigationState
 @Composable
 fun MealsCategoriesScreen(
     navController: NavController,
-    viewModel: MealsCategoriesViewModel = viewModel()
+    viewModel: CategoriesViewModel = viewModel()
 ) {
-    if (viewModel.categoryUiState.categories.isEmpty()) {
-        viewModel.getMeals()
-    }
+    val categories by viewModel.categories.collectAsState(emptyList())
+
 
     Scaffold(
         topBar = {
             AppBar(title = "Categories", navController = navController)
         }
     ) {
-        if (viewModel.categoryUiState.loading) {
+       /* if (viewModel.categoryUiState.loading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -53,12 +55,12 @@ fun MealsCategoriesScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-        } else {
+        } else { */
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = it,
             ) {
-                items(viewModel.categoryUiState.categories) { meal ->
+                items(categories) { meal ->
                     Card(
                         shape = RoundedCornerShape(8.dp),
                         elevation = 2.dp,
@@ -66,8 +68,8 @@ fun MealsCategoriesScreen(
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         onClick = {
-                            println("name: "+meal.name)
-                            navController.navigate("dishes/${meal.name}")
+                            println("id: "+meal.id)
+                            navController.navigate("dishes/${meal.id}")
                         }
                     ) {
                         Column(
@@ -91,6 +93,6 @@ fun MealsCategoriesScreen(
                     }
                 }
             }
-        }
+        //}
     }
 }
