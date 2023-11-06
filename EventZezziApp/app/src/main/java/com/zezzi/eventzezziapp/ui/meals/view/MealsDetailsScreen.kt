@@ -18,6 +18,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -35,18 +37,16 @@ fun MealsDetailsScreen(
     mealName: String,
     viewModel: MealsDetailsViewModel = viewModel()
 ) {
+    viewModel.getFilter(mealName)
 
-
-    if (viewModel.categoryUiState.meals.isEmpty()) {
-        viewModel.getFilter(mealName)
-    }
+    val meals by viewModel.meals.collectAsState(emptyList())
 
     Scaffold(
         topBar = {
             AppBar(title = "Meals - Dessert", navController = navController)
         }
     ) {
-        if (viewModel.categoryUiState.loading) {
+        /*if (viewModel.categoryUiState.loading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -56,12 +56,12 @@ fun MealsDetailsScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-        } else {
+        } else { */
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = it,
             ) {
-                items(viewModel.categoryUiState.meals) { dish ->
+                items(meals) { dish ->
                     Card(
                         shape = RoundedCornerShape(8.dp),
                         elevation = 2.dp,
@@ -93,7 +93,7 @@ fun MealsDetailsScreen(
                     }
                 }
             }
-        }
+        //}
     }
 
 }
