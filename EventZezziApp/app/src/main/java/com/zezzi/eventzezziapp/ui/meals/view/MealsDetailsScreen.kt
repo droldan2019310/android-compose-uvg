@@ -30,17 +30,20 @@ import com.zezzi.eventzezziapp.navigation.NavigationState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun MealsCategoriesScreen(
+fun MealsDetailsScreen(
     navController: NavController,
-    viewModel: MealsCategoriesViewModel = viewModel()
+    mealName: String,
+    viewModel: MealsDetailsViewModel = viewModel()
 ) {
-    if (viewModel.categoryUiState.categories.isEmpty()) {
-        viewModel.getMeals()
+
+
+    if (viewModel.categoryUiState.meals.isEmpty()) {
+        viewModel.getFilter(mealName)
     }
 
     Scaffold(
         topBar = {
-            AppBar(title = "Categories", navController = navController)
+            AppBar(title = "Meals - Dessert", navController = navController)
         }
     ) {
         if (viewModel.categoryUiState.loading) {
@@ -58,7 +61,7 @@ fun MealsCategoriesScreen(
                 columns = GridCells.Fixed(2),
                 contentPadding = it,
             ) {
-                items(viewModel.categoryUiState.categories) { meal ->
+                items(viewModel.categoryUiState.meals) { dish ->
                     Card(
                         shape = RoundedCornerShape(8.dp),
                         elevation = 2.dp,
@@ -66,8 +69,7 @@ fun MealsCategoriesScreen(
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         onClick = {
-                            println("name: "+meal.name)
-                            navController.navigate("dishes/${meal.name}")
+
                         }
                     ) {
                         Column(
@@ -77,14 +79,14 @@ fun MealsCategoriesScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = meal.name,
+                                text = dish.name,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(8.dp)
                             )
                             AsyncImage(
-                                model = meal.imageUrl,
+                                model = dish.imageUrl,
                                 contentDescription = null,
                             )
                         }
@@ -93,4 +95,5 @@ fun MealsCategoriesScreen(
             }
         }
     }
+
 }
